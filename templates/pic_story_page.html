@@ -1,0 +1,54 @@
+{% extends "page.html" %} 
+{% block breadcrumbs -%}
+  <div class="pt">
+    <span>&gt;&gt;</span>
+    <a class="category" href="/pic_story/">PicStory</a>
+    {% if page.taxonomies.categories %}
+    <span class="divider">/</span>
+    <a class="category" href="{{ get_taxonomy_url(kind="categories", name=page.taxonomies.categories[0]) }}"> {{ page.taxonomies.categories[0] }}</a>
+    {% if page.taxonomies.tags -%}
+    <span class="divider">/</span>
+    {% for tag in page.taxonomies.tags %}
+    <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}">{{ tag }}</a>{% if page.taxonomies.tags | length > 1 %}{% if loop.index != page.taxonomies.tags | length %},{% endif %}{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endif %}
+    {% if page.taxonomies.kinds %}
+    <span class="divider">/</span>
+    <a class="category" href="{{ get_taxonomy_url(kind="kinds", name=page.taxonomies.kinds[0]) }}">{{ page.taxonomies.kinds[0] }}</a>    
+    {% if page.taxonomies.tags -%}
+    <span class="divider">/</span>
+    {% for tag in page.taxonomies.tags %}
+    <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}">{{ tag }}</a>{% if page.taxonomies.tags | length > 1 %}{% if loop.index != page.taxonomies.tags | length %},{% endif %}{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endif %}
+  </div>
+{% endblock breadcrumbs %}
+{% block detail_meta_slot -%}
+<span># {{page.extra.issues }} &nbsp;</span>
+{% endblock detail_meta_slot -%}
+{% block outro %}
+<br>
+<hr>
+<setion class="muted text-sm">
+  <p>
+    南觀×難關×喃倌 PicStory<br>
+    有任何問題或回饋，歡迎<a class="muted" href="mailto:gs.locale@gmail.com?subject={{"回覆："~page.title | urlencode }}">來信</a>到：<code>gs.locale@gmail.com</code> 跟我分享！<br>
+    
+  </p>
+</setion>
+{% endblock outro %}
+{% block pic_story_sidebar_slot %}
+<div class="sidebar-element">
+<h2>看其他<span style="text-decoration:underline;"><a href="/pic_story/">PicStory</a></span></h2>
+<ul>
+  {% set all_blog_pages = get_section(path="pic_story/_index.md") -%}
+  {% for page in all_blog_pages.pages | slice(start=0,end=5)  %} 
+  <li class="no-underline">
+    {{ macro::pic_story_side(page=page) }}
+  </li>
+  {% endfor %} 
+</ul>
+</div>
+{% endblock pic_story_sidebar_slot %}
